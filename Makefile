@@ -22,5 +22,8 @@ sqlc:
 test:
 	go test -v -cover ./...
 
+server:
+	go run main.go
+
 # PHONY is used to explicitly tell Make that these targets are not associated with files
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc test
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server
