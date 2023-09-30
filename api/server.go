@@ -7,12 +7,13 @@ import (
 
 // Server serves HTTP requests for our banking service.
 type Server struct {
-	store  *db.Store
+	// store  *db.Store commented out because store is no longer a struct pointer but an interface
+	store db.Store
 	router *gin.Engine
 }
 
 // NewServer creates a new HTTP server and setup routing
-func NewServer(store *db.Store) *Server {
+func NewServer(store db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
 	// router.SetTrustedProxies(nil)

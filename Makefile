@@ -25,5 +25,8 @@ test:
 server:
 	go run main.go
 
+mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/kelvinyrb/simple-bank/db/sqlc Store
+
 # PHONY is used to explicitly tell Make that these targets are not associated with files
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mock
