@@ -2,7 +2,8 @@ name: Deploy to production
 
 on:
   push:
-    branches: [ main ]
+    # branches: [ main ]
+    branches: [ ft/debug-image-tag ]
 
 jobs:
 
@@ -31,5 +32,5 @@ jobs:
           ECR_REPOSITORY: simplebank
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
