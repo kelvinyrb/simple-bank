@@ -1,0 +1,11 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: aws-auth 
+  namespace: kube-system 
+data: 
+  mapUsers: | 
+    - userarn: arn:aws:iam::026936064590:user/simplebank-ci
+      username: simplebank-ci
+      groups:
+        - system:masters
