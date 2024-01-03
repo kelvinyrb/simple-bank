@@ -45,7 +45,10 @@ proto:
 	statik -src=./doc/swagger -dest=./doc
 
 evans:
-	evans --host localhost --port 9090 -r repl\
+	evans --host localhost --port 9090 -r repl
+
+redis:
+	docker run --name redis -p 6379:6379 -d redis:7-alpine
 
 # PHONY is used to explicitly tell Make that these targets are not associated with files
-.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock proto evans
+.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock proto evans redis
