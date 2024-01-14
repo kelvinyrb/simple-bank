@@ -6,6 +6,8 @@ import (
 	"fmt"
 
 	"github.com/hibiken/asynq"
+	db "github.com/kelvinyrb/simple-bank/db/sqlc"
+	"github.com/kelvinyrb/simple-bank/util"
 	"github.com/rs/zerolog/log"
 )
 
@@ -47,29 +49,29 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 		return fmt.Errorf("failed to get user: %w", err)
 	}
 
-	// verifyEmail, err := processor.store.CreateVerifyEmail(ctx, db.CreateVerifyEmailParams{
-	// 	Username:   user.Username,
-	// 	Email:      user.Email,
-	// 	SecretCode: util.RandomString(32),
-	// })
-	// if err != nil {
-	// 	return fmt.Errorf("failed to create verify email: %w", err)
-	// }
+	verifyEmail, err := processor.store.CreateVerifyEmail(ctx, db.CreateVerifyEmailParams{
+		Username:   user.Username,
+		Email:      user.Email,
+		SecretCode: util.RandomString(32),
+	})
+	if err != nil {
+		return fmt.Errorf("failed to create verify email: %w", err)
+	}
 
-	// subject := "Welcome to Simple Bank"
+	subject := "Welcome to Simple Bank"
 	// // TODO: replace this URL with an environment variable that points to a front-end page
-	// verifyUrl := fmt.Sprintf("http://localhost:8080/v1/verify_email?email_id=%d&secret_code=%s",
-	// 	verifyEmail.ID, verifyEmail.SecretCode)
-	// content := fmt.Sprintf(`Hello %s,<br/>
-	// Thank you for registering with us!<br/>
-	// Please <a href="%s">click here</a> to verify your email address.<br/>
-	// `, user.FullName, verifyUrl)
-	// to := []string{user.Email}
+	verifyUrl := fmt.Sprintf("http://localhost:8080/v1/verify_email?email_id=%d&secret_code=%s",
+		verifyEmail.ID, verifyEmail.SecretCode)
+	content := fmt.Sprintf(`Hello %s,<br/>
+	Thank you for registering with us!<br/>
+	Please <a href="%s">click here</a> to verify your email address.<br/>
+	`, user.FullName, verifyUrl)
+	to := []string{user.Email}
 
-	// err = processor.mailer.SendEmail(subject, content, to, nil, nil, nil)
-	// if err != nil {
-	// 	return fmt.Errorf("failed to send verify email: %w", err)
-	// }
+	err = processor.mailer.SendEmail(subject, content, to, nil, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to send verify email: %w", err)
+	}
 
 	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
 		Str("email", user.Email).Msg("processed task")

@@ -20,6 +20,7 @@ import (
 	db "github.com/kelvinyrb/simple-bank/db/sqlc"
 	_ "github.com/kelvinyrb/simple-bank/doc/statik"
 	"github.com/kelvinyrb/simple-bank/gapi"
+	"github.com/kelvinyrb/simple-bank/mail"
 	"github.com/kelvinyrb/simple-bank/pb"
 	"github.com/kelvinyrb/simple-bank/util"
 	"github.com/kelvinyrb/simple-bank/worker"
@@ -74,9 +75,8 @@ func runDBMigration(migrationURL string, dbSource string) {
 }
 
 func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
-	// mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
-	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store)
-	// taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
+	mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
+	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
 	log.Info().Msg("start task processor")
 	err := taskProcessor.Start()
 	if err != nil {

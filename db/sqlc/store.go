@@ -12,6 +12,7 @@ type Store interface {
 	Querier
 	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
 	CreateUserTx(ctx context.Context, arg CreateUserTxParams) (CreateUserTxResult, error)
+	VerifyEmailTx(ctx context.Context, arg VerifyEmailTxParams) (VerifyEmailTxResult, error)
 }
 
 // SQLStore defines all functions to execute SQL queries and transactions
@@ -50,6 +51,3 @@ func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) erro
 
 	return tx.Commit()
 }
-
-
-
