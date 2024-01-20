@@ -39,6 +39,7 @@ server:
 
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/kelvinyrb/simple-bank/db/sqlc Store
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/kelvinyrb/simple-bank/worker TaskDistributor
 
 proto:
 	rm -f pb/*.go
@@ -58,3 +59,4 @@ redis:
 
 # PHONY is used to explicitly tell Make that these targets are not associated with files
 .PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 new_migration db_schema sqlc test server mock proto evans redis
+
