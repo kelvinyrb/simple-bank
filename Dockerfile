@@ -15,7 +15,7 @@ COPY app.env .
 COPY start.sh . 
 COPY db/migration ./db/migration
 
-EXPOSE 8080
+EXPOSE 8080 9090
 # When CMD is used with ENTRYPOINT, the cmd acts as arg to entrypoint
 CMD [ "/app/main" ]
 ENTRYPOINT [ "/app/start.sh" ]
