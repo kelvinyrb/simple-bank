@@ -2,11 +2,11 @@ package gapi
 
 import (
 	"context"
-	"database/sql"
 	"testing"
 	"time"
 
 	"github.com/golang/mock/gomock"
+	"github.com/jackc/pgx/v5/pgtype"
 	mockdb "github.com/kelvinyrb/simple-bank/db/mock"
 	db "github.com/kelvinyrb/simple-bank/db/sqlc"
 	"github.com/kelvinyrb/simple-bank/pb"
@@ -53,11 +53,11 @@ func TestUpdateUserAPI(t *testing.T) {
 					// 	String: newEmail,
 					// 	Valid:  true,
 					// },
-					FullName: sql.NullString{
+					FullName: pgtype.Text{
 						String: newName,
 						Valid:  true,
 					},
-					Email: sql.NullString{
+					Email: pgtype.Text{
 						String: newEmail,
 						Valid:  true,
 					},
